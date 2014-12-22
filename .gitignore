@@ -1,3 +1,11 @@
+# Makefile dependencies
+*.d
+
+# Object files
+*.o
+
+# Binaries
+avl/avl
+
 # Vim swap files
-*.swp
-*.swo
+*.sw*
