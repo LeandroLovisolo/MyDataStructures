@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="skiplist.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        skiplist_insert = Module.cwrap('skiplist_insert', 'void', ['number']);
+        skiplist_remove = Module.cwrap('skiplist_remove', 'void', ['number']);
+        skiplist_print  = Module.cwrap('skiplist_print', 'string', []);
+
+        var print = function() {
+          $("#output").text(skiplist_print());
+        }
+
+        $("#insertBtn").click(function() {
+          val = $("#insertValue").val();
+          skiplist_insert(val);
+          print();
+        });
+
+        $("#insertRandomBtn").click(function() {
+          skiplist_insert(Math.random() * 100);
+          print();
+        });
+
+        $("#removeBtn").click(function() {
+          val = $("#removeValue").val();
+          skiplist_remove(val);
+          print();
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Skip list</h1>
+
+    <p>
+      Insert item: <input type="text" id="insertValue"/> <button id="insertBtn">Insert</button>
+      <button id="insertRandomBtn" style="margin-left: 50px">Insert random</button>
+    </p>
+
+    <p>
+      Remove item: <input type="text" id="removeValue"/> <button id="removeBtn">Remove</button>
+    </p>
+
+    <pre id="output">Go ahead and insert some items!</pre>
+  </body>
+</html>
