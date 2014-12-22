@@ -5,27 +5,27 @@
 
 class avl_node : public bst_node_t<avl_node> {
 public:
-    avl_node(int value, avl_node *parent = 0);
-    std::string label();
-    void update_height();
+  avl_node(int value, avl_node *parent = 0);
+  std::string label();
+  void update_height();
 
-    int height;
+  int height;
 };
 
 class avl : public bst<avl_node> {
 public:
-    avl();
-    ~avl();
+  avl();
+  ~avl();
 
-    avl_node* insert(int value);
+  avl_node* insert(int value);
 
-    bool is_avl();
+  bool is_avl();
 
 private:
-    void rotate_left(avl_node *node);
-    void rotate_right(avl_node *node);
-    void rebalance(avl_node *node);
-    bool is_avl_r(avl_node *node);
+  void rotate_left(avl_node *node);
+  void rotate_right(avl_node *node);
+  void rebalance(avl_node *node);
+  bool is_avl_r(avl_node *node);
 };
 
 #endif
