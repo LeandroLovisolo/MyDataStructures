@@ -3,9 +3,21 @@
 #include <algorithm>
 #include "avl.h"
 
+#ifdef EMSCRIPTEN
+#include <emscripten.h>
+#else
+#define EMSCRIPTEN_KEEPALIVE
+#endif
+
 #define NUM_ITEMS_DEFAULT 10
 
 using namespace std;
+
+extern "C" {
+  int EMSCRIPTEN_KEEPALIVE mydouble(int x) {
+    return 2 * x;
+  }
+}
 
 vector<int> random_items(int num_items) {
     vector<int> items(num_items);
