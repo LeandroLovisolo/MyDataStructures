@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="avl.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        avl_insert = Module.cwrap('insert', 'void', ['number']);
+        avl_print  = Module.cwrap('print', 'string', []);
+        avl_clear  = Module.cwrap('clear', 'void', []);
+
+        var print = function() {
+          $("#output").text(avl_print());
+        }
+
+        $("#insertBtn").click(function() {
+          val = $("#insertValue").val();
+          avl_insert(val);
+          print();
+        });
+
+        $("#insertRandomBtn").click(function() {
+          avl_insert(Math.random() * 1000);
+          print();
+        });
+
+        $("#clearBtn").click(function() {
+          avl_clear();
+          print();
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>AVL tree</h1>
+
+    <p>
+      Insert node: <input type="text" id="insertValue"/> <button id="insertBtn">Insert</button>
+      <button id="insertRandomBtn" style="margin-left: 50px">Insert random</button>
+    </p>
+
+    <p>
+      <button id="clearBtn">Clear</button>
+    </p>
+
+    <pre id="output">Go ahead and insert some nodes!</pre>
+  </body>
+</html>
+
