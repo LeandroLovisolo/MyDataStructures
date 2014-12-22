@@ -1,15 +1,9 @@
 #include <iostream>
 #include <ctime>
 #include <algorithm>
+
+#include "js.h"
 #include "avl.h"
-
-#ifdef EMSCRIPTEN
-#include <emscripten.h>
-#else
-#define EMSCRIPTEN_KEEPALIVE
-#endif
-
-#define NUM_ITEMS_DEFAULT 10
 
 using namespace std;
 
@@ -36,6 +30,8 @@ extern "C" {
 ////////////////////////////////////////////////////////////////////////////////
 // Terminal interface                                                         //
 ////////////////////////////////////////////////////////////////////////////////
+
+#define NUM_ITEMS_DEFAULT 10
 
 vector<int> random_items(int num_items) {
   vector<int> items(num_items);
