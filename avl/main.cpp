@@ -13,11 +13,29 @@
 
 using namespace std;
 
+////////////////////////////////////////////////////////////////////////////////
+// Javascript interface                                                       //
+////////////////////////////////////////////////////////////////////////////////
+
+avl a;
+
 extern "C" {
-  int EMSCRIPTEN_KEEPALIVE mydouble(int x) {
-    return 2 * x;
+  void EMSCRIPTEN_KEEPALIVE insert(int x) {
+    a.insert(x);
+  }
+
+  void EMSCRIPTEN_KEEPALIVE clear() {
+    a = avl();
+  }
+
+  const char * EMSCRIPTEN_KEEPALIVE print() {
+    return a.print().c_str();
   }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Terminal interface                                                         //
+////////////////////////////////////////////////////////////////////////////////
 
 vector<int> random_items(int num_items) {
   vector<int> items(num_items);
@@ -45,7 +63,7 @@ avl build_avl(const vector<int> &items) {
   return t;
 }
 
-int main(int argc, char *argv[]) {
+void terminal_interface(int argc, char *argv[]) {
   int num_items = (argc == 1 ? NUM_ITEMS_DEFAULT : atoi(argv[1]));
 
   vector<int> items = random_items(num_items);
@@ -64,6 +82,16 @@ int main(int argc, char *argv[]) {
   cout << a.print();
   cout << "Is BST? " << a.is_bst() << endl;
   cout << "Is AVL? " << a.is_avl() << endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Main                                                                       //
+////////////////////////////////////////////////////////////////////////////////
+
+int main(int argc, char *argv[]) {
+  #ifndef EMSCRIPTEN
+  terminal_interface(argc, argv);
+  #endif
 
   return 0;
 }
