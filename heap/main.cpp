@@ -1,54 +1,88 @@
 #include <iostream>
 #include <ctime>
 #include <algorithm>
-#include "heap.h"
 
-#define NUM_ITEMS_DEFAULT 10
+#include "js.h"
+#include "heap.h"
 
 using namespace std;
 
+////////////////////////////////////////////////////////////////////////////////
+// Javascript interface                                                       //
+////////////////////////////////////////////////////////////////////////////////
+
+heap h;
+
+extern "C" {
+  void EMSCRIPTEN_KEEPALIVE push(int x) {
+    h.push(x);
+  }
+
+  void EMSCRIPTEN_KEEPALIVE pop() {
+    h.pop();
+  }
+
+  const char * EMSCRIPTEN_KEEPALIVE print() {
+    return h.print().c_str();
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Terminal interface                                                         //
+////////////////////////////////////////////////////////////////////////////////
+
+#define NUM_ITEMS_DEFAULT 10
+
 vector<int> random_items(int num_items) {
-    vector<int> items(num_items);
-    for(int i = 0; i < num_items; i++) { 
-        items[i] = i + 1;
-    }
-    srand(time(NULL));
-    random_shuffle(items.begin(), items.end());
-    return items;
+  vector<int> items(num_items);
+  for(int i = 0; i < num_items; i++) { 
+    items[i] = i + 1;
+  }
+  srand(time(NULL));
+  random_shuffle(items.begin(), items.end());
+  return items;
 }
 
 heap build_heap(const vector<int> &items) {
-    heap h;
-    for(int i : items) {
-        h.push(i);
-        cout << "Inserting " << i << ":\t";
-        h.print();
-        if(!h.is_heap()) {
-            cout << "ERROR: heap property broken." << endl;;
-        }
+  heap h;
+  for(int i : items) {
+    h.push(i);
+    cout << "Inserting " << i << ":\t";
+    cout << h.print();
+    if(!h.is_heap()) {
+      cout << "ERROR: heap property broken." << endl;;
     }
-    return h;
+  }
+  return h;
 }
 
+void terminal_interface(int argc, char *argv[]) {
+  int num_items = (argc == 1 ? NUM_ITEMS_DEFAULT : atoi(argv[1]));
+
+  vector<int> items = random_items(num_items);
+
+  cout << "Items:" << endl;
+  for(int i : items) cout << i << " ";
+  cout << endl;
+
+  cout << endl << "Building heap..." << endl;
+  heap h = build_heap(items);
+
+  cout << endl << "Heap:" << endl;
+  cout << h.print();
+
+  cout << endl << "Popping elements: " << endl;
+  while(!h.empty()) {
+    cout << h.pop() << " popped.\tIs heap? " << h.is_heap() << endl;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Main                                                                       //
+////////////////////////////////////////////////////////////////////////////////
+
 int main(int argc, char *argv[]) {
-    int num_items = (argc == 1 ? NUM_ITEMS_DEFAULT : atoi(argv[1]));
-
-    vector<int> items = random_items(num_items);
-
-    cout << "Items:" << endl;
-    for(int i : items) cout << i << " ";
-    cout << endl;
-
-    cout << endl << "Building heap..." << endl;
-    heap h = build_heap(items);
-
-    cout << endl << "Heap:" << endl;
-    h.print();
-
-    cout << endl << "Popping elements: " << endl;
-    while(!h.empty()) {
-        cout << h.pop() << " popped.\tIs heap? " << h.is_heap() << endl;
-    }
-
-    return 0;
+  #ifndef EMSCRIPTEN
+  terminal_interface(argc, argv);
+  #endif
 }
