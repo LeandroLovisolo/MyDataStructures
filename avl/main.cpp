@@ -14,15 +14,15 @@ using namespace std;
 avl a;
 
 extern "C" {
-  void EMSCRIPTEN_KEEPALIVE insert(int x) {
+  void EMSCRIPTEN_KEEPALIVE avl_insert(int x) {
     a.insert(x);
   }
 
-  void EMSCRIPTEN_KEEPALIVE clear() {
+  void EMSCRIPTEN_KEEPALIVE avl_clear() {
     a = avl();
   }
 
-  const char * EMSCRIPTEN_KEEPALIVE print() {
+  const char * EMSCRIPTEN_KEEPALIVE avl_print() {
     return a.print().c_str();
   }
 }

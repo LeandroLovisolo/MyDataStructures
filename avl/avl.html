@@ -5,9 +5,9 @@
     <script type="text/javascript" src="avl.js"></script>
     <script type="text/javascript">
       $(function() {
-        avl_insert = Module.cwrap('insert', 'void', ['number']);
-        avl_print  = Module.cwrap('print', 'string', []);
-        avl_clear  = Module.cwrap('clear', 'void', []);
+        avl_insert = Module.cwrap('avl_insert', 'void', ['number']);
+        avl_print  = Module.cwrap('avl_print', 'string', []);
+        avl_clear  = Module.cwrap('avl_clear', 'void', []);
 
         var print = function() {
           $("#output").text(avl_print());
