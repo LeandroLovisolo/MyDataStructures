@@ -1,0 +1,25 @@
+{
+  "name": "slugify",
+  "main": "slugify.js",
+  "version": "1.0.2",
+  "homepage": "https://github.com/andrefarzat/slugify",
+  "authors": [
+    "Andre Farzat <andrefarzat@gmail.com>"
+  ],
+  "description": "slugify string",
+  "keywords": [
+    "slugify",
+    "url",
+    "slug",
+    "str",
+    "string"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
