@@ -72,7 +72,10 @@ App.DataStructureFileRoute = Ember.Route.extend({
 
 App.DataStructureController = Ember.ObjectController.extend({
   needs: 'application',
-  dataStructures: Ember.computed.alias('controllers.application'),
+  dataStructures: Ember.computed.alias('controllers.application')
+});
+
+App.DataStructureIndexController = Ember.ObjectController.extend({
   executeAction: function(action, parameter) {
     this.set('output', 'Action ' + action.get('label') + ' executed.');
   }
