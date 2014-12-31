@@ -2,75 +2,81 @@ window.DataStructures =
 [
   {
     name: 'AVL tree',
+    functionNamePrefix: 'avl_',
     actions: [
       {
         type:         'integer',
         label:        'Insert',
-        functionName: 'avl_insert'
+        functionName: 'insert'
       },
       {
         type:         'random',
         label:        'Insert random',
-        functionName: 'avl_insert'
+        functionName: 'insert'
       },
       {
         type:         'void',
         label:        'Clear',
-        functionName: 'avl_clear'
+        functionName: 'clear'
       }
     ],
+    basePath: 'avl/',
     files: [
-      'avl/bst.h',
-      'avl/avl.h',
-      'avl/avl.cpp'
+      'bst.h',
+      'avl.h',
+      'avl.cpp'
     ]
   },
   {
     name: 'Heap',
+    functionNamePrefix: 'heap_',
     actions: [
       {
         type:         'integer',
         label:        'Push',
-        functionName: 'heap_push'
+        functionName: 'push'
       },
       {
         type:         'random',
         label:        'Push random',
-        functionName: 'heap_push'
+        functionName: 'push'
       },
       {
         type:         'void',
         label:        'Pop',
-        functionName: 'heap_pop'
+        functionName: 'pop'
       }
     ],
+    basePath: 'heap/',
     files: [
-      'heap/heap.h',
-      'heap/heap.cpp'
+      'heap.h',
+      'heap.cpp'
     ]
   },
   {
     name: 'Skip list',
+    functionNamePrefix: 'skiplist_',
     actions: [
       {
         type:         'integer',
         label:        'Insert',
-        functionName: 'skip_list_insert'
+        functionName: 'insert'
       },
       {
         type:         'random',
         label:        'Insert random',
-        functionName: 'skip_list_insert'
+        functionName: 'insert'
       },
       {
         type:         'integer',
         label:        'Remove',
-        functionName: 'skip_list_remove'
+        functionName: 'remove'
       }
     ],
+    basePath: 'skiplist/',
     files: [
-      'skiplist/skiplist.h',
-      'skiplist/skiplist.cpp'
+      'skiplist.h',
+      'skiplist.cpp'
     ]
   }
 ];

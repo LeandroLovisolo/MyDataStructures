@@ -1,6 +1,5 @@
 # This Makefile is intended to be included from a directory with source code.
-# It requires the ELFBIN and JSBIN variables to be defined in the parent
-# Makefile.
+# It requires the BIN variable to be defined in the parent Makefile.
 
 # Compilers and flags
 LD          = $(CXX)
@@ -13,21 +12,21 @@ else
   CXXFLAGS := $(CXXFLAGS) -ggdb
 endif
 
-# Targets
+# Targets and dependencies
 ifdef USE_EMSCRIPTEN
-  BIN  = $(JSBIN)
+  ALL = $(OBJ)
 else
-  BIN  = $(ELFBIN)
+  ALL = $(BIN)
 endif
-OBJ    = $(patsubst %.cpp, %.o, $(wildcard *.cpp))
-DEP    = $(patsubst %.cpp, %.d, $(wildcard *.cpp))
+OBJ   = $(patsubst %.cpp, %.o, $(wildcard *.cpp))
+DEP   = $(patsubst %.cpp, %.d, $(wildcard *.cpp))
 
 .PHONY: all js clean
 
-all: $(BIN)
+all: $(ALL)
 
 js:
-	emmake make clean all USE_EMSCRIPTEN=1
+	emmake make all USE_EMSCRIPTEN=1
 
 $(BIN): $(OBJ)
 	$(LD) $(LDFLAGS) -o $@ $^
@@ -39,4 +38,4 @@ $(BIN): $(OBJ)
 -include $(DEP)
 
 clean:
-	rm -f $(ELFBIN) $(JSBIN) $(OBJ) $(DEP)
+	rm -f $(BIN) $(OBJ) $(DEP)

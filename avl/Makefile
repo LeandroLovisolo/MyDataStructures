@@ -1,4 +1,3 @@
-ELFBIN = avl
-JSBIN  = avl.js
+BIN = avl
 
 -include ../common/Makefile

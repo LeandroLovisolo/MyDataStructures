@@ -81,17 +81,17 @@
         {{#each action in actions itemController='action'}}
           <li>
             {{#if action.isVoid}}
-              <button {{action 'executeAction'}}>{{action.label}}</button>
+              <button {{action 'execute'}}>{{action.label}}</button>
             {{/if}}
 
             {{#if action.isInteger}}
               {{action.label}}
-              {{input value=action.parameter action='executeAction'}}
-                <button {{action 'executeAction'}}>Submit</button>
+              {{input value=action.parameter action='execute'}}
+                <button {{action 'execute'}}>Submit</button>
             {{/if}}
 
             {{#if action.isRandom}}
-              <button {{action 'executeAction'}}>{{action.label}}</button>
+              <button {{action 'execute'}}>{{action.label}}</button>
             {{/if}}
           </li>
         {{/each}}
@@ -103,12 +103,11 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="data-structure/file">
-      File: {{path}}
+
+      <pre>{{contents}}</pre>
     </script>
 
     <script type="text/x-handlebars" data-template-name="about">
-      About MyApp...
-
       Lorem ipsum dolor sit amet.
 
       <p>{{#link-to 'index'}}Back{{/link-to}}</p>
@@ -120,6 +119,7 @@
     <script src="bower_components/handlebars/handlebars.js"></script>
     <script src="bower_components/ember/ember.js"></script>
     <script src="bower_components/slugify/slugify.js"></script>
+    <script src="js/bin.js"></script>
     <script src="js/datastructures.js"></script>
     <script src="js/application.js"></script>
   </body>

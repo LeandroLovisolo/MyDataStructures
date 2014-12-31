@@ -1,4 +1,3 @@
-ELFBIN = skiplist
-JSBIN  = skiplist.js
+BIN  = skiplist
 
 -include ../common/Makefile

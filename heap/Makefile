@@ -1,4 +1,3 @@
-ELFBIN = heap
-JSBIN  = heap.js
+BIN  = heap
 
 -include ../common/Makefile

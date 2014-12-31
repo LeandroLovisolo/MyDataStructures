@@ -24,15 +24,32 @@ App.ApplicationRoute = Ember.Route.extend({
     var dataStructures = [];
 
     DataStructures.forEach(function(dataStructure) {
-      dataStructures.push(App.DataStructure.create({
+      var dataStructureObj = App.DataStructure.create({
         name: dataStructure.name,
-        actions: dataStructure.actions.map(function(action) {
-          return App.Action.create(action);
-        }),
-        files: dataStructure.files.map(function(path) {
-          return App.File.create({ path: path });
-        })
-      }));
+        basePath: dataStructure.basePath,
+        functionNamePrefix: dataStructure.functionNamePrefix
+      });
+
+      var actions = dataStructure.actions.map(function(action) {
+        return App.Action.create({
+          dataStructure: dataStructureObj,
+          type: action.type,
+          label: action.label,
+          functionName: action.functionName
+        });
+      });
+
+      var files = dataStructure.files.map(function(path) {
+        return App.File.create({
+          dataStructure: dataStructureObj,
+          path: path
+        });
+      });
+
+      dataStructureObj.set('actions', actions);
+      dataStructureObj.set('files', files);
+
+      dataStructures.push(dataStructureObj);
     });
 
     return dataStructures;
@@ -75,17 +92,11 @@ App.DataStructureController = Ember.ObjectController.extend({
   dataStructures: Ember.computed.alias('controllers.application')
 });
 
-App.DataStructureIndexController = Ember.ObjectController.extend({
-  executeAction: function(action, parameter) {
-    this.set('output', 'Action ' + action.get('label') + ' executed.');
-  }
-});
-
 App.ActionController = Ember.ObjectController.extend({
   parameter: '',
   actions: {
-    executeAction: function() {
-      this.target.executeAction(this.get('model'), this.get('parameter'));
+    execute: function() {
+      this.get('model').execute(this.get('parameter'));
     }
   },
 });
@@ -95,27 +106,76 @@ App.ActionController = Ember.ObjectController.extend({
 /////////////////////////////////////////////////
 
 App.DataStructure = Ember.Object.extend({
+  init: function() {
+    this.print();
+  },
   name: '',
+  functionNamePrefix: '',
   actions: [],
+  basePath: '',
   files: [],
   output: '',
   slug: function() {
     return slugify(this.get('name'));
-  }.property('name')
+  }.property('name'),
+  print: function() {
+    var functionName = this.get('functionNamePrefix') + 'print';
+    var printFunction = Module.cwrap(functionName, 'string', []);
+    this.set('output', printFunction());
+  }
 });
 
 App.Action = Ember.Object.extend({
+  dataStructure: null,
   type: '',
   label: '',
   functionName: '',
   isVoid: Ember.computed.equal('type', 'void'),
   isInteger: Ember.computed.equal('type', 'integer'),
   isRandom: Ember.computed.equal('type', 'random'),
+  execute: function(parameter) {
+    var actionFunctionName = this.get('dataStructure.functionNamePrefix') +
+                             this.get('functionName');
+
+    var argumentTypes = null, actionParameter = null;
+    if(this.get('isVoid')) {
+      argumentTypes = [];
+    } else {
+      argumentTypes = ['number'];
+      if(this.get('isInteger')) {
+        actionParameter = parameter;
+      } else {
+        actionParameter = parseInt(Math.random() * 100);
+      }
+    }
+
+    var actionFunction = Module.cwrap(actionFunctionName,
+                                      'void',
+                                      argumentTypes);
+    if(this.get('isVoid')) {
+      actionFunction();
+    } else {
+      actionFunction(actionParameter);
+    }
+
+    this.get('dataStructure').print();
+  }
 });
 
 App.File = Ember.Object.extend({
+  init: function() {
+    var self = this;
+    $.ajax({ url: 'src/' +
+                  this.get('dataStructure.basePath') +
+                  this.get('path') })
+     .then(function(response) {
+       self.set('contents', response);
+     });
+  },
+  dataStructure: null,
   path: '',
+  contents: '',
   slug: function() {
-    return slugify(this.get('path'));
+    return encodeURIComponent(this.get('path'));
   }.property('path')
 });
