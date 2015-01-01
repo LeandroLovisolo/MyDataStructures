@@ -6,17 +6,17 @@ window.DataStructures =
     actions: [
       {
         type:         'integer',
-        label:        'Insert',
+        label:        'Insert a new item',
         functionName: 'insert'
       },
       {
         type:         'random',
-        label:        'Insert random',
+        label:        'Insert a random item',
         functionName: 'insert'
       },
       {
         type:         'void',
-        label:        'Clear',
+        label:        'Clear tree',
         functionName: 'clear'
       }
     ],
@@ -33,17 +33,17 @@ window.DataStructures =
     actions: [
       {
         type:         'integer',
-        label:        'Push',
+        label:        'Push a new item',
         functionName: 'push'
       },
       {
         type:         'random',
-        label:        'Push random',
+        label:        'Push a random item',
         functionName: 'push'
       },
       {
         type:         'void',
-        label:        'Pop',
+        label:        'Pop an item',
         functionName: 'pop'
       }
     ],
@@ -59,17 +59,17 @@ window.DataStructures =
     actions: [
       {
         type:         'integer',
-        label:        'Insert',
+        label:        'Insert a new item',
         functionName: 'insert'
       },
       {
         type:         'random',
-        label:        'Insert random',
+        label:        'Insert a random item',
         functionName: 'insert'
       },
       {
         type:         'integer',
-        label:        'Remove',
+        label:        'Remove an item',
         functionName: 'remove'
       }
     ],

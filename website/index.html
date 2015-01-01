@@ -78,35 +78,59 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="data-structure/index">
-      Actions:
+      <div class="panel panel-default">
+        <div class="panel-heading">Actions</div>
+        <div class="panel-body">
+          <form class="form-inline">
+            {{#each action in actions itemController='action'}}
+              {{#if action.isVoid}}
+                <button {{action 'execute'}} class="btn btn-default">
+                  {{action.label}}
+                </button>
+              {{/if}}
 
-      <ul>
-        {{#each action in actions itemController='action'}}
-          <li>
-            {{#if action.isVoid}}
-              <button {{action 'execute'}}>{{action.label}}</button>
-            {{/if}}
+              {{#if action.isInteger}}
+                <div {{bind-attr class=":input-group action.hasErrors:has-error"}}>
+                  {{#pop-over visible=action.hasErrors
+                              content='Needs to be an integer.'}}
+                    {{input value=action.parameter action='execute'
+                            placeholder=action.label
+                            focus-out='focusOut'
+                            class='form-control'}}
+                    <div class="clearfix"></div>
+                  {{/pop-over}}
+                  <span class="input-group-btn">
+                    <button {{action 'execute'}}
+                            class="btn btn-default">
+                      Submit
+                    </button>
+                  </span>
+                </div>
+              {{/if}}
 
-            {{#if action.isInteger}}
-              {{action.label}}
-              {{input value=action.parameter action='execute'}}
-                <button {{action 'execute'}}>Submit</button>
-            {{/if}}
+              {{#if action.isRandom}}
+                <button {{action 'execute'}} class="btn btn-default">
+                  {{action.label}}
+                </button>
+              {{/if}}
+            {{/each}}
+          </form>
+        </div>
+      </div>
 
-            {{#if action.isRandom}}
-              <button {{action 'execute'}}>{{action.label}}</button>
-            {{/if}}
-          </li>
-        {{/each}}
-      </ul>
+      <div class="panel panel-default">
+        <div class="panel-heading">Output</div>
+        <div class="panel-body">
+          <pre>{{output}}</pre>
+        </div>
+      </div>
+    </script>
 
-      Output:
-
-      <pre>{{output}}</pre>
+    <script type="text/x-handlebars" data-template-name="components/pop-over">
+      {{yield}}
     </script>
 
     <script type="text/x-handlebars" data-template-name="data-structure/file">
-
       <pre>{{contents}}</pre>
     </script>
 

@@ -15,6 +15,19 @@ Ember.LinkView.reopen({
   attributeBindings: ['role']
 });
 
+App.PopOverComponent = Ember.Component.extend({
+  _initialize: function() {
+    this.$().popover({
+      content: this.get('content'),
+      placement: 'bottom',
+      trigger: 'manual'
+    });
+  }.on('didInsertElement'),
+  visibleChanged: function() {
+    this.$().popover(this.get('visible') ? 'show' : 'hide');
+  }.observes('visible')
+});
+
 /////////////////////////////////////////////////
 // Routes                                      //
 /////////////////////////////////////////////////
@@ -94,9 +107,28 @@ App.DataStructureController = Ember.ObjectController.extend({
 
 App.ActionController = Ember.ObjectController.extend({
   parameter: '',
+  hasErrors: false,
+  _parameterChanged: function() {
+    this.set('hasErrors', false);
+  }.observes('parameter'),
   actions: {
     execute: function() {
-      this.get('model').execute(this.get('parameter'));
+      if(this.get('type') == 'integer' &&
+         this.get('parameter').trim() == '') {
+        this.set('hasErrors', true);
+      } else {
+        this.set('hasErrors', false);
+        this.get('model').execute(this.get('parameter'));
+      }
+    },
+    focusIn: function() {
+      console.log('focus in');
+    },
+    mouseMove: function() {
+      console.log('mouse move');
+    },
+    focusOut: function() {
+      this.set('hasErrors', false);
     }
   },
 });
