@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>MyDataStructures</title>
+    <link rel="stylesheet" type="text/css" href="assets/app.css" />
+  </head>
+  <body>
+    <script type="text/x-handlebars">
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            {{#link-to 'index' class='navbar-brand'}}
+              MyDataStructures
+            {{/link-to}}
+          </div>
+          <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              {{#link-to 'data-structure' tagName='li'}}
+                {{#link-to 'index'}}Data Structures{{/link-to}}
+              {{/link-to}}
+              {{#link-to 'about' tagName='li'}}
+                {{#link-to 'about'}}About{{/link-to}}
+              {{/link-to}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div class="container">
+        {{outlet}}
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="data-structure">
+      <ul class="nav nav-tabs">
+        {{#each dataStructure in dataStructures}}
+          {{#link-to 'data-structure' dataStructure
+                     tagName='li' role='presentation'}}
+            {{#link-to 'data-structure' dataStructure}}
+              {{dataStructure.name}}
+            {{/link-to}}
+          {{/link-to}}
+        {{/each}}
+      </ul>
+
+      <br>
+
+      <ul class="nav nav-pills">
+        {{#link-to 'data-structure.index' this
+                   tagName='li' role='presentation'}}
+          {{#link-to 'data-structure.index' this}}
+            Output
+          {{/link-to}}
+        {{/link-to}}
+        {{#each file in files}}
+          {{#link-to 'data-structure.file' file
+                     tagName='li' role='presentation'}}
+            {{#link-to 'data-structure.file' file}}
+              {{file.path}}
+            {{/link-to}}
+          {{/link-to}}
+        {{/each}}
+      </ul>
+
+      <br>
+
+      {{outlet}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="data-structure/index">
+      <div class="panel panel-default">
+        <div class="panel-heading">Actions</div>
+        <div class="panel-body">
+          <form class="form-inline">
+            {{#each action in actions itemController='action'}}
+              {{#if action.isVoid}}
+                <button {{action 'execute'}} class="btn btn-default">
+                  {{action.label}}
+                </button>
+              {{/if}}
+
+              {{#if action.isInteger}}
+                <div {{bind-attr class=":input-group action.hasErrors:has-error"}}>
+                  {{#pop-over visible=action.hasErrors
+                              content='Needs to be an integer.'}}
+                    {{input value=action.parameter action='execute'
+                            placeholder=action.label
+                            focus-out='focusOut'
+                            class='form-control'}}
+                    <div class="clearfix"></div>
+                  {{/pop-over}}
+                  <span class="input-group-btn">
+                    {{#view 'SubmitIntegerAction'}}
+                      Submit
+                    {{/view}}
+                  </span>
+                </div>
+              {{/if}}
+
+              {{#if action.isRandom}}
+                <button {{action 'execute'}} class="btn btn-default">
+                  {{action.label}}
+                </button>
+              {{/if}}
+            {{/each}}
+          </form>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">Output</div>
+        <div class="panel-body">
+          <pre class="output">{{output}}</pre>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="components/pop-over">
+      {{yield}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="data-structure/file">
+      <pre>{{contents}}</pre>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="about">
+      <p>
+        MyDataStructures is a collection of basic data structures written in
+        the C++ programming language, and a web interface that allows you to
+        visualize them and interact with them.
+      </p>
+
+      <p>
+        The C++ data structures are compiled into JavaScript using
+        <a href="http://kripken.github.io/emscripten-site/">Emscripten</a> and
+        executed in the browser.
+      </p>
+
+      <p>
+        The web interface is built using
+        <a href="http://emberjs.com/">Ember</a> and
+        <a href="http://getbootstrap.com/">Bootstrap</a>.
+      </p>
+
+      <p>
+        You can check out the source code on GitHub
+        <a href="https://github.com/LeandroLovisolo/MyDataStructures">here</a>.
+      </p>
+    </script>
+
+    <script src="assets/app.js"></script>
+  </body>
+</html>

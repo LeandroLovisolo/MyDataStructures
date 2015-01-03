@@ -1,8 +1,9 @@
-DIRS   = avl heap skiplist
-BIN    = website/js/bin.js
-JSOBJ := $(foreach dir, $(DIRS), $(wildcard $(dir)/*.o))
+DIRS            = avl heap skiplist
+BIN             = website/js/bin.js
+JS_OBJ         := $(foreach dir, $(DIRS), $(wildcard $(dir)/*.o))
+WEBSITE_SRC_DIR = website/public/src
 
-.PHONY: all js clean website website-src publish
+.PHONY: all js clean serve website website-src publish
 
 all:
 	-for dir in $(DIRS); do make -C $$dir all; done
@@ -12,19 +13,24 @@ js:
 	emmake make jsbin
 
 jsbin:
-	$(CXX) -s NO_EXIT_RUNTIME=1 $(JSOBJ) -o $(BIN)
+	$(CXX) -s NO_EXIT_RUNTIME=1 $(JS_OBJ) -o $(BIN)
 
 clean:
 	-for dir in $(DIRS); do make -C $$dir clean; done
 	rm -f $(BIN)
 
+serve:
+	cd website; broccoli serve
+
 website: js website-src
+	rm -rf website/dist
+	cd website; broccoli build dist
 
 website-src:
-	rm -rf website/src/*
-	-for dir in $(DIRS); do mkdir website/src/$$dir; \
-	                        cp $$dir/*.h website/src/$$dir; \
-	                        cp $$dir/*.cpp website/src/$$dir; done
+	rm -rf $(WEBSITE_SRC_DIR)/*
+	-for dir in $(DIRS); do mkdir          $(WEBSITE_SRC_DIR)/$$dir; \
+	                        cp $$dir/*.h   $(WEBSITE_SRC_DIR)/$$dir; \
+	                        cp $$dir/*.cpp $(WEBSITE_SRC_DIR)/$$dir; done
 
 publish: website
-	git subtree push --prefix website origin gh-pages
+	git subtree push --prefix website/dist origin gh-pages
