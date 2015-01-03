@@ -10,5 +10,8 @@ avl/avl
 # Vim swap files
 *.sw*
 
+# Broccoli tmp directory
+website/tmp
+
 # Misc
 TODO
