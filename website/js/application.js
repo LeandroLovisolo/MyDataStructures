@@ -11,9 +11,28 @@ App.Router.map(function() {
   this.route('about');
 });
 
+/////////////////////////////////////////////////
+// Views                                       //
+/////////////////////////////////////////////////
+
 Ember.LinkView.reopen({
   attributeBindings: ['role']
 });
+
+App.SubmitIntegerActionView = Ember.View.extend({
+  tagName: 'button',
+  classNames: ['btn', 'btn-default'],
+  click: function() {
+    this.get('controller').send('execute');
+  },
+  focusOut: function() {
+    this.get('controller').send('focusOut');
+  }
+});
+
+/////////////////////////////////////////////////
+// Components                                  //
+/////////////////////////////////////////////////
 
 App.PopOverComponent = Ember.Component.extend({
   _initialize: function() {
@@ -111,21 +130,18 @@ App.ActionController = Ember.ObjectController.extend({
   _parameterChanged: function() {
     this.set('hasErrors', false);
   }.observes('parameter'),
+  validateIntegerParameter: function() {
+    return /^\d+$/.test(this.get('parameter').trim());
+  },
   actions: {
     execute: function() {
-      if(this.get('type') == 'integer' &&
-         this.get('parameter').trim() == '') {
+      if( this.get('type') == 'integer' &&
+         !this.validateIntegerParameter()) {
         this.set('hasErrors', true);
       } else {
         this.set('hasErrors', false);
         this.get('model').execute(this.get('parameter'));
       }
-    },
-    focusIn: function() {
-      console.log('focus in');
-    },
-    mouseMove: function() {
-      console.log('mouse move');
     },
     focusOut: function() {
       this.set('hasErrors', false);

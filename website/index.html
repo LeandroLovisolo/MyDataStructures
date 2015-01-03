@@ -100,10 +100,9 @@
                     <div class="clearfix"></div>
                   {{/pop-over}}
                   <span class="input-group-btn">
-                    <button {{action 'execute'}}
-                            class="btn btn-default">
+                    {{#view 'SubmitIntegerAction'}}
                       Submit
-                    </button>
+                    {{/view}}
                   </span>
                 </div>
               {{/if}}
@@ -121,7 +120,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">Output</div>
         <div class="panel-body">
-          <pre>{{output}}</pre>
+          <pre class="output">{{output}}</pre>
         </div>
       </div>
     </script>
