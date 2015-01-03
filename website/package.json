@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "dependencies": {
+    "bower": "^1.3.12",
+    "broccoli": "^0.13.3",
+    "broccoli-cli": "0.0.1",
+    "broccoli-concat": "0.0.12",
+    "broccoli-less-single": "^0.1.5",
+    "broccoli-merge-trees": "^0.2.1"
+  }
+}

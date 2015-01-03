@@ -30,6 +30,5 @@
   },
   "_source": "git://github.com/andrefarzat/slugify.git",
   "_target": "~1.0.2",
-  "_originalSource": "slugify",
-  "_direct": true
+  "_originalSource": "slugify"
 }

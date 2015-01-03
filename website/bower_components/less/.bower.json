@@ -31,6 +31,5 @@
   },
   "_source": "git://github.com/less/less.git",
   "_target": "~2.1.2",
-  "_originalSource": "less",
-  "_direct": true
+  "_originalSource": "less"
 }
