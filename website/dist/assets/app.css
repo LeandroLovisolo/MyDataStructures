@@ -6726,4 +6726,5 @@ div.action-form {
 }
 pre.output {
   margin-bottom: 0;
+  word-wrap: normal;
 }
