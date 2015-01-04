@@ -6720,6 +6720,10 @@ button.close {
 body {
   margin-top: 70px;
 }
+div.action-form {
+  float: left;
+  margin-right: 15px;
+}
 pre.output {
   margin-bottom: 0;
 }
