@@ -6,6 +6,8 @@
 
 # Binaries
 avl/avl
+heap/heap
+skiplist/skiplist
 
 # Vim swap files
 *.sw*
