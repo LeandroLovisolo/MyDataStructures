@@ -14,3 +14,10 @@ pre.output {
   margin-bottom: 0;
   word-wrap: normal;
 }
+
+pre.code {
+  // Restore Bootstrap's default styles, overriden by the Prettify library.
+  // Styles taken from the <pre> element styling in Bootstrap's code.less.
+  padding: ((@line-height-computed - 1) / 2) !important;
+  border: 1px solid @pre-border-color !important;
+}

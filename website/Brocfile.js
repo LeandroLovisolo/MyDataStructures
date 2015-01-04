@@ -9,6 +9,7 @@ var appJs = concat(jsTree, {
                'handlebars/handlebars.js',
                'ember/ember.js',
                'slugify/slugify.js',
+               'google-code-prettify/src/prettify.js',
                'bin.js',
                'datastructures.js',
                'application.js'],
@@ -16,6 +17,15 @@ var appJs = concat(jsTree, {
 });
 
 var lessTree = mergeTrees(['bower_components/bootstrap/less', 'styles']);
-var appCss = compileLess(lessTree, 'styles.less', 'assets/app.css');
+var cssTree = mergeTrees(['bower_components',
+                          compileLess(lessTree, 'styles.less', 'styles.css')]);
+var appCss = concat(cssTree, {
+  inputFiles: ['google-code-prettify/src/prettify.css',
+               'styles.css'],
+  outputFile: '/assets/app.css'
+});
+
+// var appCss = compileLess(lessTree, 'styles.less', 'assets/app.css');
+
 
 module.exports = mergeTrees([appJs, appCss, 'public']);

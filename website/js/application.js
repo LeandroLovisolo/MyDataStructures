@@ -31,6 +31,21 @@ App.SubmitIntegerActionView = Ember.View.extend({
   }
 });
 
+App.SourceCodeView = Ember.View.extend({
+  template: Ember.Handlebars.compile('{{view.code}}'),
+  tagName: 'pre',
+  classNames: 'code prettyprint lang-cpp',
+  code: '',
+  _initialize: function() {
+    prettyPrint();
+  }.on('didInsertElement'),
+  codeChanged: function() {
+    this.$().removeClass('prettyprinted')
+            .text(this.get('code'));
+    prettyPrint();
+  }.observes('code')
+});
+
 /////////////////////////////////////////////////
 // Components                                  //
 /////////////////////////////////////////////////
