@@ -17,7 +17,6 @@ $(BIN): $(JS_OBJ)
 
 clean:
 	-for dir in $(DIRS); do make -C $$dir clean; done
-	rm -f $(BIN)
 
 serve:
 	cd website; broccoli serve
