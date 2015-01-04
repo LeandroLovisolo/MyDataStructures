@@ -25,7 +25,4 @@ var appCss = concat(cssTree, {
   outputFile: '/assets/app.css'
 });
 
-// var appCss = compileLess(lessTree, 'styles.less', 'assets/app.css');
-
-
 module.exports = mergeTrees([appJs, appCss, 'public']);
