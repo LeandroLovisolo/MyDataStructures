@@ -9,6 +9,7 @@ App.Router.map(function() {
     this.route('file', { path: '/files/:file_slug' });
   });
   this.route('about');
+  this.route('catch-all', { path: '/*wildcard' });
 });
 
 /////////////////////////////////////////////////
@@ -112,6 +113,12 @@ App.DataStructureFileRoute = Ember.Route.extend({
   },
   serialize: function(model) {
     return { file_slug: model.get('slug') };
+  }
+});
+
+App.CatchAllRoute = Ember.Route.extend({
+  beforeModel: function() {
+    this.transitionTo('index');
   }
 });
 
