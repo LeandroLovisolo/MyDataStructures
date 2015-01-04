@@ -11,7 +11,7 @@ var appJs = concat(jsTree, {
                'slugify/slugify.js',
                'google-code-prettify/src/prettify.js',
                'bin.js',
-               'datastructures.js',
+               'config.js',
                'application.js'],
   outputFile: '/assets/app.js'
 });
