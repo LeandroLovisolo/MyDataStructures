@@ -33,10 +33,10 @@ Then run `make website` from the project's root directory. This both compiles th
 
 You can then run the website either by opening the `website/dist/index.html` file in a web browser or by running `make serve` from the project's root directory and visiting `http://localhost:4200`.
 
-Adding new data structures
---------------------------
+Adding a new data structure
+---------------------------
 
-Follow the steps below:
+Follow the steps below.
 
 1. Create a new directory on the project's root, for example `foo`.
 2. Add the directory you just created to the `DIRS` variable in the `Makefile`, for example `DIRS = avl heap skiplist foo`.
@@ -48,7 +48,26 @@ Follow the steps below:
 
 ### Defining the data structure's JavaScript interface ###
 
-Pending.
+- Your data structure's JavaScript interface is defined as a collection of functions that take zero or one integer parameter and return void.
+- The function names need to start with a common prefix, for example `foo_`.
+- Additionally, you need to provide a print function that takes zero parameters and returns a string of type `const char *` containing an ASCII representation of your data structure. This is what the user will see in the output panel. If your prefix is `foo_`, then the function's name needs to be `foo_print`. This function will be called by the web interface every time the user performs an operation on your data structure.
+- Your functions must be wrapped inside an `extern "C" { ... }` block, and you need to write the `EMSCRIPTEN_KEEPALIVE` macro in your function declarations between the return type and the function name. For example:
+```
+extern "C" {
+  void EMSCRIPTEN_KEEPALIVE foo_insert(int x) {
+    ...
+  }
+
+  void EMSCRIPTEN_KEEPALIVE foo_clear() {
+    ...
+  }
+
+  const char * EMSCRIPTEN_KEEPALIVE foo_print() {
+    ...
+  }
+}
+
+```
 
 ### Adding the data structure to `website/js/config.js` ###
 
