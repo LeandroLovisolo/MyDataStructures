@@ -10,9 +10,9 @@ all:
 
 js:
 	-for dir in $(DIRS); do make -C $$dir js; done
-	emmake make jsbin
+	emmake make $(BIN)
 
-jsbin:
+$(BIN): $(JS_OBJ)
 	$(CXX) -s NO_EXIT_RUNTIME=1 $(JS_OBJ) -o $(BIN)
 
 clean:
