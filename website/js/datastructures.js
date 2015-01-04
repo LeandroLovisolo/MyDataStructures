@@ -3,7 +3,7 @@ window.DataStructures =
   {
     name: 'AVL tree',
     functionNamePrefix: 'avl_',
-    actions: [
+    operations: [
       {
         type:         'integer',
         label:        'Insert a new item',
@@ -30,7 +30,7 @@ window.DataStructures =
   {
     name: 'Heap',
     functionNamePrefix: 'heap_',
-    actions: [
+    operations: [
       {
         type:         'integer',
         label:        'Push a new item',
@@ -56,7 +56,7 @@ window.DataStructures =
   {
     name: 'Skip list',
     functionNamePrefix: 'skiplist_',
-    actions: [
+    operations: [
       {
         type:         'integer',
         label:        'Insert a new item',

@@ -20,7 +20,7 @@ Ember.LinkView.reopen({
   attributeBindings: ['role']
 });
 
-App.SubmitIntegerActionView = Ember.View.extend({
+App.SubmitIntegerOperationView = Ember.View.extend({
   tagName: 'button',
   classNames: ['btn', 'btn-default'],
   click: function() {
@@ -78,12 +78,12 @@ App.ApplicationRoute = Ember.Route.extend({
         functionNamePrefix: dataStructure.functionNamePrefix
       });
 
-      var actions = dataStructure.actions.map(function(action) {
-        return App.Action.create({
+      var operations = dataStructure.operations.map(function(operation) {
+        return App.Operation.create({
           dataStructure: dataStructureObj,
-          type: action.type,
-          label: action.label,
-          functionName: action.functionName
+          type: operation.type,
+          label: operation.label,
+          functionName: operation.functionName
         });
       });
 
@@ -94,7 +94,7 @@ App.ApplicationRoute = Ember.Route.extend({
         });
       });
 
-      dataStructureObj.set('actions', actions);
+      dataStructureObj.set('operations', operations);
       dataStructureObj.set('files', files);
 
       dataStructures.push(dataStructureObj);
@@ -146,7 +146,7 @@ App.DataStructureController = Ember.ObjectController.extend({
   dataStructures: Ember.computed.alias('controllers.application')
 });
 
-App.ActionController = Ember.ObjectController.extend({
+App.OperationController = Ember.ObjectController.extend({
   parameter: '',
   hasErrors: false,
   _parameterChanged: function() {
@@ -181,7 +181,7 @@ App.DataStructure = Ember.Object.extend({
   },
   name: '',
   functionNamePrefix: '',
-  actions: [],
+  operations: [],
   basePath: '',
   files: [],
   output: '',
@@ -195,7 +195,7 @@ App.DataStructure = Ember.Object.extend({
   }
 });
 
-App.Action = Ember.Object.extend({
+App.Operation = Ember.Object.extend({
   dataStructure: null,
   type: '',
   label: '',
@@ -204,28 +204,28 @@ App.Action = Ember.Object.extend({
   isInteger: Ember.computed.equal('type', 'integer'),
   isRandom: Ember.computed.equal('type', 'random'),
   execute: function(parameter) {
-    var actionFunctionName = this.get('dataStructure.functionNamePrefix') +
-                             this.get('functionName');
+    var operationFunctionName = this.get('dataStructure.functionNamePrefix') +
+                                this.get('functionName');
 
-    var argumentTypes = null, actionParameter = null;
+    var argumentTypes = null, operationParameter = null;
     if(this.get('isVoid')) {
       argumentTypes = [];
     } else {
       argumentTypes = ['number'];
       if(this.get('isInteger')) {
-        actionParameter = parameter;
+        operationParameter = parameter;
       } else {
-        actionParameter = parseInt(Math.random() * 100);
+        operationParameter = parseInt(Math.random() * 100);
       }
     }
 
-    var actionFunction = Module.cwrap(actionFunctionName,
-                                      'void',
-                                      argumentTypes);
+    var operationFunction = Module.cwrap(operationFunctionName,
+                                         'void',
+                                         argumentTypes);
     if(this.get('isVoid')) {
-      actionFunction();
+      operationFunction();
     } else {
-      actionFunction(actionParameter);
+      operationFunction(operationParameter);
     }
 
     this.get('dataStructure').print();
