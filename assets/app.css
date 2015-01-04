@@ -6773,8 +6773,12 @@ button.close {
 body {
   margin-top: 70px;
 }
+div.actions-panel div.panel-body {
+  padding-top: 0;
+}
 div.action-form {
   float: left;
+  margin-top: 15px;
   margin-right: 15px;
 }
 pre.output {
