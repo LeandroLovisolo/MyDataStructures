@@ -33,6 +33,27 @@ Then run `make website` from the project's root directory. This both compiles th
 
 You can then run the website either by opening the `website/dist/index.html` file in a web browser or by running `make serve` from the project's root directory and visiting `http://localhost:4200`.
 
+Adding new data structures
+--------------------------
+
+Follow the steps below:
+
+1. Create a new directory on the project's root, for example `foo`.
+2. Add the directory you just created to the `DIRS` variable in the `Makefile`, for example `DIRS = avl heap skiplist foo`.
+3. Create an empty `Makefile` inside the newly created directory, define a `BIN` variable with the desired target binary name, then include `common/Makefile`. Check out the `Makefile` in the directory of any data structure for an example.
+4. Add your source code to the new directory.
+5. Define the data structure's JavaScript interface inside a `#ifdef EMSCRIPTEN` conditional block, as explained shortly below.
+6. Define your Unix binary's `main` function in an `#else` block following the previous `#ifdef` to make sure it's not included in the JavaScript build.
+7. Add a new entry for your data structure in `website/js/config.js` as explained below.
+
+### Defining the data structure's JavaScript interface ###
+
+Pending.
+
+### Adding the data structure to `website/js/config.js` ###
+
+Pending.
+
 License
 -------
 
