@@ -1,4 +1,5 @@
 #include <iostream>
+#include <climits>
 
 #include "heap.h"
 
@@ -13,18 +14,29 @@ void heap::push(int x) {
   }
 }
 
+int heap::peek() {
+  return items[0];
+}
+
 int heap::pop() {
-  int item = peek();
-  swap(0, items.size() - 1);
-  items.pop_back();
-  if(!empty()) {
-    heapify(0);
+  int item;
+  if(empty()) {
+    item = INT_MIN;
+  } else {
+    item = peek();
+    swap(0, items.size() - 1);
+    items.pop_back();
+    if(!empty()) {
+      heapify(0);
+    }
   }
   return item;
 }
 
-int heap::peek() {
-  return items[0];
+void heap::clear() {
+  while(!empty()) {
+    pop();
+  }
 }
 
 int heap::size() {
@@ -37,10 +49,14 @@ bool heap::empty() {
 
 string heap::print() {
   string output;
-  for(int i : items) {
-    output += to_string(i) + " ";
+  if(empty()) {
+    output = "Empty heap.";
+  } else {
+    for(int i : items) {
+      output += to_string(i) + " ";
+    }
+    output += "\n";
   }
-  output += "\n";
   return output;
 }
 
