@@ -24,6 +24,10 @@ extern "C" {
     h.pop();
   }
 
+  void EMSCRIPTEN_KEEPALIVE heap_clear() {
+    h.clear();
+  }
+
   const char * EMSCRIPTEN_KEEPALIVE heap_print() {
     return h.print().c_str();
   }

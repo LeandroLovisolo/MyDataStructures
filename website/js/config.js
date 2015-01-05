@@ -45,6 +45,11 @@ window.DataStructures =
         type:         'void',
         label:        'Pop an item',
         functionName: 'pop'
+      },
+      {
+        type:         'void',
+        label:        'Clear heap',
+        functionName: 'clear'
       }
     ],
     basePath: 'heap/',
@@ -71,6 +76,11 @@ window.DataStructures =
         type:         'integer',
         label:        'Remove an item',
         functionName: 'remove'
+      },
+      {
+        type:         'void',
+        label:        'Clear skip list',
+        functionName: 'clear'
       }
     ],
     basePath: 'skiplist/',

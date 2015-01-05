@@ -14,6 +14,7 @@ using namespace std;
 #ifdef EMSCRIPTEN
 
 heap h;
+string output;
 
 extern "C" {
   void EMSCRIPTEN_KEEPALIVE heap_push(int x) {
@@ -24,8 +25,13 @@ extern "C" {
     h.pop();
   }
 
+  void EMSCRIPTEN_KEEPALIVE heap_clear() {
+    h.clear();
+  }
+
   const char * EMSCRIPTEN_KEEPALIVE heap_print() {
-    return h.print().c_str();
+    output = h.print();
+    return output.c_str();
   }
 }
 

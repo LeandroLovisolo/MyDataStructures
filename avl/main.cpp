@@ -14,6 +14,7 @@ using namespace std;
 #ifdef EMSCRIPTEN
 
 avl a;
+string output;
 
 extern "C" {
   void EMSCRIPTEN_KEEPALIVE avl_insert(int x) {
@@ -25,7 +26,8 @@ extern "C" {
   }
 
   const char * EMSCRIPTEN_KEEPALIVE avl_print() {
-    return a.print().c_str();
+    output = a.print();
+    return output.c_str();
   }
 }
 

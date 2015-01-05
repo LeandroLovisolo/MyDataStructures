@@ -158,7 +158,7 @@ App.OperationController = Ember.ObjectController.extend({
     this.set('hasErrors', false);
   }.observes('parameter'),
   validateIntegerParameter: function() {
-    return /^\d+$/.test(this.get('parameter').trim());
+    return /^-?\d+$/.test(this.get('parameter').trim());
   },
   actions: {
     execute: function() {

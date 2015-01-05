@@ -14,6 +14,7 @@ using namespace std;
 #ifdef EMSCRIPTEN
 
 skiplist s;
+string output;
 
 extern "C" {
   void EMSCRIPTEN_KEEPALIVE skiplist_insert(int x) {
@@ -24,8 +25,13 @@ extern "C" {
     s.remove(x);
   }
 
+  void EMSCRIPTEN_KEEPALIVE skiplist_clear() {
+    s.clear();
+  }
+
   const char * EMSCRIPTEN_KEEPALIVE skiplist_print() {
-    return s.print().c_str();
+    output = s.print();
+    return output.c_str();
   }
 }
 
@@ -70,7 +76,7 @@ void remove_items(skiplist &l, vector<int> &items) {
   for(int i : items) {
     cout << endl << "Removing " << i << ":" << endl;
     l.remove(i);
-    cout << l.print();
+    cout << l.print() << endl;
   }
 }
 

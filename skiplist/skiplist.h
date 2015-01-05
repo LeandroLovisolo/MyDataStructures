@@ -22,6 +22,8 @@ public:
   bool find(int value);
   void insert(int value);
   void remove(int value);
+  void clear();
+  bool empty();
   std::string print();
 
 private:

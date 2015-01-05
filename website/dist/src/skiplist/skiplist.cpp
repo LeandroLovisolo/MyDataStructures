@@ -78,19 +78,33 @@ void skiplist::remove(int value) {
   }
 }
 
+void skiplist::clear() {
+  while(!empty()) {
+    remove(head.forward[0]->value);
+  }
+}
+
+bool skiplist::empty() {
+  return head.forward[0] == &tail;
+}
+
 string skiplist::print() {
   string output;
-  for(int level = head.level(); level >= 0; level--) {
-    node *current = &head, *current_0 = &head;
-    while(current != &tail) {
-      output += (current == &head ? "#" : to_string(current->value));
-      current = current->forward[level];
-      while(current_0 != current) {
-        output += "\t";
-        current_0 = current_0->forward[0];
+  if(empty()) {
+    output = "Empty skip list.";
+  } else {
+    for(int level = head.level(); level >= 0; level--) {
+      node *current = &head, *current_0 = &head;
+      while(current != &tail) {
+        output += (current == &head ? "#" : to_string(current->value));
+        current = current->forward[level];
+        while(current_0 != current) {
+          output += "\t";
+          current_0 = current_0->forward[0];
+        }
       }
+      output += "#\n";
     }
-    output += "#\n";
   }
   return output;
 }

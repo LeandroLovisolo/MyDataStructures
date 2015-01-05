@@ -7,8 +7,9 @@
 class heap {
 public:
   void push(int x);
-  int pop();
   int peek();
+  int pop();
+  void clear();
   int size();
   bool empty();
 
