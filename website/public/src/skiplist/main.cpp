@@ -14,7 +14,7 @@ using namespace std;
 #ifdef EMSCRIPTEN
 
 skiplist s;
-string output;
+string s_output;
 
 extern "C" {
   void EMSCRIPTEN_KEEPALIVE skiplist_insert(int x) {
@@ -30,8 +30,8 @@ extern "C" {
   }
 
   const char * EMSCRIPTEN_KEEPALIVE skiplist_print() {
-    output = s.print();
-    return output.c_str();
+    s_output = s.print();
+    return s_output.c_str();
   }
 }
 
