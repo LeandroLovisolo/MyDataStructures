@@ -69,6 +69,11 @@ App.PopOverComponent = Ember.Component.extend({
 
 App.ApplicationRoute = Ember.Route.extend({
   model: function() {
+    var initializeRandomSeed = Module.cwrap('initialize_random_seed',
+                                            'void',
+                                            ['number']);
+    initializeRandomSeed(Math.random() * 1000000);
+
     var dataStructures = [];
 
     DataStructures.forEach(function(dataStructure) {

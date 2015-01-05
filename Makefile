@@ -1,4 +1,4 @@
-DIRS            = avl heap skiplist
+DIRS            = common avl heap skiplist
 BIN             = website/js/bin.js
 JS_OBJ         := $(foreach dir, $(DIRS), $(wildcard $(dir)/*.o))
 WEBSITE_SRC_DIR = website/public/src
