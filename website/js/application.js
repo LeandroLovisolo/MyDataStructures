@@ -247,7 +247,7 @@ App.File = Ember.Object.extend({
   path: '',
   contents: '',
   slug: function() {
-    return encodeURIComponent(this.get('path'));
+    return encodeURIComponent(this.get('fileName'));
   }.property('path'),
   fileName: function() {
     return this.get('path').split('/').pop();
