@@ -21,6 +21,10 @@ extern "C" {
     b.insert(x);
   }
 
+  void EMSCRIPTEN_KEEPALIVE bst_remove(int x) {
+    b.remove(x);
+  }
+
   void EMSCRIPTEN_KEEPALIVE bst_clear() {
     b = bst<>();
   }
