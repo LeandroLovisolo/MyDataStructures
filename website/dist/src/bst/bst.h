@@ -39,9 +39,11 @@ template<typename node_t = bst_node>
 class bst {
 public:
   bst();
+  ~bst();
 
   node_t* find(int value);
   node_t* insert(int value);
+  bool remove(int value);
 
   bool is_bst();
   std::string print();
@@ -50,6 +52,7 @@ protected:
   node_t *root;
 
 private:
+  void transplant(node_t *n, node_t *m);
   bool is_bst_r(node_t *node);
   std::tuple<std::vector<std::string>, int, int> print_r(node_t *node);
   std::string center(const std::string &s, int w);
@@ -59,6 +62,11 @@ private:
 template<typename node_t>
 bst<node_t>::bst() {
   this->root = 0;
+}
+
+template<typename node_t>
+bst<node_t>::~bst() {
+  if(this->root != 0) delete this->root;
 }
 
 template<typename node_t>
@@ -90,6 +98,46 @@ node_t* bst<node_t>::insert(int value) {
     };
     if(value < parent->value) return parent->left = new node_t(value, parent);
     else return parent->right = new node_t(value, parent);
+  }
+}
+
+template<typename node_t>
+bool bst<node_t>::remove(int value) {
+  node_t *node = find(value);
+  if(node == 0) return false;
+
+  if(node->left == 0) {
+    transplant(node, node->right);
+  } else if(node->right == 0) {
+    transplant(node, node->left);
+  } else {
+    node_t *successor = node->right;
+    while(successor->left != 0) successor = successor->left;
+    if(successor->parent != node) {
+      transplant(successor, successor->right);
+      successor->right = node->right;
+      successor->right->parent = successor;
+    }
+    transplant(node, successor);
+    successor->left = node->left;
+    successor->left->parent = successor;
+  }
+
+  return true;
+}
+
+
+template<typename node_t>
+void bst<node_t>::transplant(node_t *n, node_t *m) {
+  if(n->parent == 0) {
+    root = m;
+  } else if(n->parent->left == n) {
+    n->parent->left = m;
+  } else {
+    n->parent->right = m;
+  }
+  if(m != 0) {
+    m->parent = n->parent;
   }
 }
 
