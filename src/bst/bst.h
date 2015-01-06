@@ -123,6 +123,10 @@ bool bst<node_t>::remove(int value) {
     successor->left->parent = successor;
   }
 
+  node->left = 0;
+  node->right = 0;
+  delete node;
+
   return true;
 }
 
