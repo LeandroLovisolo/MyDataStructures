@@ -1,6 +1,30 @@
 window.DataStructures =
 [
   {
+    name: 'Binary search tree',
+    functionNamePrefix: 'bst_',
+    operations: [
+      {
+        type:         'integer',
+        label:        'Insert a new item',
+        functionName: 'insert'
+      },
+      {
+        type:         'random',
+        label:        'Insert a random item',
+        functionName: 'insert'
+      },
+      {
+        type:         'void',
+        label:        'Clear tree',
+        functionName: 'clear'
+      }
+    ],
+    files: [
+      '/bst/bst.h',
+    ]
+  },
+  {
     name: 'AVL tree',
     functionNamePrefix: 'avl_',
     operations: [
@@ -20,11 +44,10 @@ window.DataStructures =
         functionName: 'clear'
       }
     ],
-    basePath: 'avl/',
     files: [
-      'bst.h',
-      'avl.h',
-      'avl.cpp'
+      '/bst/bst.h',
+      '/avl/avl.h',
+      '/avl/avl.cpp'
     ]
   },
   {
@@ -52,10 +75,9 @@ window.DataStructures =
         functionName: 'clear'
       }
     ],
-    basePath: 'heap/',
     files: [
-      'heap.h',
-      'heap.cpp'
+      '/heap/heap.h',
+      '/heap/heap.cpp'
     ]
   },
   {
@@ -83,10 +105,9 @@ window.DataStructures =
         functionName: 'clear'
       }
     ],
-    basePath: 'skiplist/',
     files: [
-      'skiplist.h',
-      'skiplist.cpp'
+      '/skiplist/skiplist.h',
+      '/skiplist/skiplist.cpp'
     ]
   }
 ];

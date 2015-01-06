@@ -79,7 +79,6 @@ App.ApplicationRoute = Ember.Route.extend({
     DataStructures.forEach(function(dataStructure) {
       var dataStructureObj = App.DataStructure.create({
         name: dataStructure.name,
-        basePath: dataStructure.basePath,
         functionNamePrefix: dataStructure.functionNamePrefix
       });
 
@@ -187,7 +186,6 @@ App.DataStructure = Ember.Object.extend({
   name: '',
   functionNamePrefix: '',
   operations: [],
-  basePath: '',
   files: [],
   output: '',
   slug: function() {
@@ -240,9 +238,7 @@ App.Operation = Ember.Object.extend({
 App.File = Ember.Object.extend({
   init: function() {
     var self = this;
-    $.ajax({ url: 'src/' +
-                  this.get('dataStructure.basePath') +
-                  this.get('path') })
+    $.ajax({ url: 'src/' + this.get('path') })
      .then(function(response) {
        self.set('contents', response);
      });
@@ -252,5 +248,8 @@ App.File = Ember.Object.extend({
   contents: '',
   slug: function() {
     return encodeURIComponent(this.get('path'));
+  }.property('path'),
+  fileName: function() {
+    return this.get('path').split('/').pop();
   }.property('path')
 });
