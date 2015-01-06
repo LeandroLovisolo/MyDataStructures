@@ -1,7 +1,7 @@
 #ifndef __AVL_H__
 #define __AVL_H__
 
-#include "bst.h"
+#include "../bst/bst.h"
 
 class avl_node : public bst_node_t<avl_node> {
 public:
