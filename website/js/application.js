@@ -226,7 +226,7 @@ App.Operation = Ember.Object.extend({
       if(this.get('isInteger')) {
         operationParameter = parameter;
       } else {
-        operationParameter = parseInt(Math.random() * 100);
+        operationParameter = parseInt(Math.random() * 1000);
       }
     }
 
