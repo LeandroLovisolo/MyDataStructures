@@ -1,0 +1,3 @@
+website/node_modules/* linguist-vendored
+website/bower_components/* linguist-vendored
+website/dist/* linguist-vendored
