@@ -21,6 +21,10 @@ extern "C" {
     a.insert(x);
   }
 
+  void EMSCRIPTEN_KEEPALIVE avl_remove(int x) {
+    a.remove(x);
+  }
+
   void EMSCRIPTEN_KEEPALIVE avl_clear() {
     a = avl();
   }
