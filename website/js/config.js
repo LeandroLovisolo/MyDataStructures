@@ -99,8 +99,8 @@ window.DataStructures =
       '<p>' +
       '  The <em>balance factor</em> of each node, i.e. the difference' +
       '  between the heights of its left and right subtrees, is shown in' +
-      '  parentheses next to its key. Note that in an AVL tree, any node' +
-      '  can only have a balance factor of -1, 0 or 1.' +
+      '  parentheses next to its key. Note that in an AVL tree a node can' +
+      '  only have a balance factor of -1, 0 or 1.' +
       '</p>'
   },
   {
