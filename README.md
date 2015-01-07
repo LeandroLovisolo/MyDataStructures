@@ -79,6 +79,7 @@ The `website/js/config.js` file defines a `window.DataStructures` array containi
   - `label`: Name of the operation, e.g. `'Insert a new item'`.
   - `functionName`: Name of the function for this operation, *not* including the function name prefix. For example, if this data structure's `functionNamePrefix` field is `'foo_'` and you defined a function `foo_insert` in your JavaScript interface, this field should be just `'insert'`.
 - `files`: Array containing the soure code file names you want to display in the web interface, e.g. `['/foo/foo.h', '/foo/foo.cpp']`.
+- `helpText`: String containing a brief introduction to the data structure. This text will be shown on the interface next to the data structure. Arbitrary HTML is allowed here.
 
 License
 -------
