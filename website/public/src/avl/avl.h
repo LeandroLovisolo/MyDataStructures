@@ -18,6 +18,7 @@ public:
   ~avl();
 
   avl_node* insert(int value);
+  bool remove(int value);
 
   bool is_avl();
 

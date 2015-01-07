@@ -7,12 +7,14 @@ avl_node::avl_node(int value, avl_node *parent) : bst_node_t(value, parent) {
 }
 
 string avl_node::label() {
-  return to_string(value) + " (" + to_string(height) + ")";
+  int balance_factor = (right ? right->height : 0) -
+                       (left ? left->height : 0);
+  return to_string(value) + " (" + to_string(balance_factor) + ")";
 }
 
 void avl_node::update_height() {
   if(left == 0 && right == 0) {
-    height = 0;
+    height = 1;
   } else {
     height = max(left ? left->height : 0, right ? right->height : 0) + 1;
   }
@@ -28,6 +30,45 @@ avl_node* avl::insert(int value) {
   avl_node *new_node = bst<avl_node>::insert(value);
   rebalance(new_node);
   return new_node;
+}
+
+bool avl::remove(int value) {
+  avl_node *node = find(value);
+  if(node == 0) return false;
+
+  if(node->left == 0) {
+    transplant(node, node->right);
+    rebalance(node->parent);
+  } else if(node->right == 0) {
+    transplant(node, node->left);
+    rebalance(node->parent);
+  } else {
+    avl_node *successor = node->right;
+    while(successor->left != 0) {
+      successor = successor->left;
+    }
+
+    avl_node *rebalance_start_point;
+    if(successor->parent != node) {
+      rebalance_start_point = successor->parent;
+      transplant(successor, successor->right);
+      successor->right = node->right;
+      successor->right->parent = successor;
+    } else {
+      rebalance_start_point = successor;
+    }
+    transplant(node, successor);
+    successor->left = node->left;
+    successor->left->parent = successor;
+
+    rebalance(rebalance_start_point);
+  }
+
+  node->left = 0;
+  node->right = 0;
+  delete node;
+
+  return true;
 }
 
 void avl::rotate_left(avl_node *node) {

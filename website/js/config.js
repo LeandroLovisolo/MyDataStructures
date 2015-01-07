@@ -44,6 +44,11 @@ window.DataStructures =
         functionName: 'insert'
       },
       {
+        type:         'integer',
+        label:        'Remove an item',
+        functionName: 'remove'
+      },
+      {
         type:         'void',
         label:        'Clear tree',
         functionName: 'clear'

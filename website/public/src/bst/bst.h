@@ -49,10 +49,10 @@ public:
   std::string print();
 
 protected:
+  void transplant(node_t *n, node_t *m);
   node_t *root;
 
 private:
-  void transplant(node_t *n, node_t *m);
   bool is_bst_r(node_t *node);
   std::tuple<std::vector<std::string>, int, int> print_r(node_t *node);
   std::string center(const std::string &s, int w);
