@@ -79,7 +79,8 @@ App.ApplicationRoute = Ember.Route.extend({
     DataStructures.forEach(function(dataStructure) {
       var dataStructureObj = App.DataStructure.create({
         name: dataStructure.name,
-        functionNamePrefix: dataStructure.functionNamePrefix
+        functionNamePrefix: dataStructure.functionNamePrefix,
+        helpText: dataStructure.helpText
       });
 
       var operations = dataStructure.operations.map(function(operation) {
@@ -147,7 +148,13 @@ App.CatchAllRoute = Ember.Route.extend({
 
 App.DataStructureController = Ember.ObjectController.extend({
   needs: 'application',
-  dataStructures: Ember.computed.alias('controllers.application')
+  dataStructures: Ember.computed.alias('controllers.application'),
+  showHelp: true,
+  actions: {
+    toggleHelp: function() {
+      this.set('showHelp', !this.get('showHelp'));
+    }
+  }
 });
 
 App.OperationController = Ember.ObjectController.extend({
@@ -188,6 +195,7 @@ App.DataStructure = Ember.Object.extend({
   operations: [],
   files: [],
   output: '',
+  helpText: '',
   slug: function() {
     return slugify(this.get('name'));
   }.property('name'),

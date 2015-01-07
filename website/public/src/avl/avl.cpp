@@ -7,8 +7,8 @@ avl_node::avl_node(int value, avl_node *parent) : bst_node_t(value, parent) {
 }
 
 string avl_node::label() {
-  int balance_factor = (right ? right->height : 0) -
-                       (left ? left->height : 0);
+  int balance_factor = (left ? left->height : 0) -
+                       (right ? right->height : 0);
   return to_string(value) + " (" + to_string(balance_factor) + ")";
 }
 

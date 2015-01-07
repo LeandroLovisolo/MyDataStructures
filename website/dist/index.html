@@ -70,11 +70,28 @@
             {{/link-to}}
           {{/link-to}}
         {{/each}}
+
+        <li role="presentation" class="pull-right">
+          <a href="javascript:void(null)" {{action 'toggleHelp'}}> 
+            {{#if showHelp}}
+              Hide help
+            {{else}}
+              Show help
+            {{/if}}
+          </a>
+        </li>
       </ul>
 
       <br>
 
-      {{outlet}}
+      <div class="row">
+        <div {{bind-attr class='showHelp:col-sm-9:col-sm-12'}}>
+          {{outlet}}
+        </div>
+        <div {{bind-attr class='showHelp:col-sm-3:hidden'}}>
+          {{{helpText}}}
+        </div>
+      </div>
     </script>
 
     <script type="text/x-handlebars" data-template-name="data-structure/index">
