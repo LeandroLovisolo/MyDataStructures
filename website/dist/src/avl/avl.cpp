@@ -13,17 +13,8 @@ string avl_node::label() {
 }
 
 void avl_node::update_height() {
-  if(left == 0 && right == 0) {
-    height = 1;
-  } else {
-    height = max(left ? left->height : 0, right ? right->height : 0) + 1;
-  }
-}
-
-avl::avl() {
-}
-
-avl::~avl() {
+  height = 1 + max(left == nullptr ? 0 : left->height,
+                   right == nullptr ? 0 : right->height);
 }
 
 avl_node* avl::insert(int value) {
@@ -34,17 +25,17 @@ avl_node* avl::insert(int value) {
 
 bool avl::remove(int value) {
   avl_node *node = find(value);
-  if(node == 0) return false;
+  if(node == nullptr) return false;
 
-  if(node->left == 0) {
+  if(node->left == nullptr) {
     transplant(node, node->right);
     rebalance(node->parent);
-  } else if(node->right == 0) {
+  } else if(node->right == nullptr) {
     transplant(node, node->left);
     rebalance(node->parent);
   } else {
     avl_node *successor = node->right;
-    while(successor->left != 0) {
+    while(successor->left != nullptr) {
       successor = successor->left;
     }
 
@@ -64,8 +55,8 @@ bool avl::remove(int value) {
     rebalance(rebalance_start_point);
   }
 
-  node->left = 0;
-  node->right = 0;
+  node->left = nullptr;
+  node->right = nullptr;
   delete node;
 
   return true;
@@ -81,9 +72,9 @@ void avl::rotate_left(avl_node *node) {
   node->left->left = a;
   if(a != nullptr) a->parent = node->left;
   node->left->right = b;
-  if(b != 0) b->parent = node->left;
+  if(b != nullptr) b->parent = node->left;
   node->right = c;
-  if(c != 0) c->parent = node;
+  if(c != nullptr) c->parent = node;
   node->left->update_height();
 }
 
@@ -97,18 +88,18 @@ void avl::rotate_right(avl_node *node) {
   node->left = a;
   if(a != nullptr) a->parent = node;
   node->right->left = b;
-  if(b != 0) b->parent = node->right;
+  if(b != nullptr) b->parent = node->right;
   node->right->right = c;
-  if(c != 0) c->parent = node->right;
+  if(c != nullptr) c->parent = node->right;
   node->right->update_height();
 }
 
 int height(avl_node *node) {
-  return node == 0 ? 0 : node->height;
+  return node == nullptr ? 0 : node->height;
 }
 
 void avl::rebalance(avl_node *node) {
-  if(node == 0) return;
+  if(node == nullptr) return;
   if(height(node->left) > height(node->right) + 1) {
     if(height(node->left->right) > height(node->left->left)) {
       rotate_left(node->left);
@@ -129,7 +120,7 @@ bool avl::is_avl() {
 }
 
 bool avl::is_avl_r(avl_node *node) {
-  if(node == 0) return true;
+  if(node == nullptr) return true;
   return is_avl_r(node->left) &&
          is_avl_r(node->right) &&
          abs(height(node->left) - height(node->right)) <= 1;

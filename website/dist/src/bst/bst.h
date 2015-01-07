@@ -9,15 +9,15 @@
 template<typename node_t>
 class bst_node_t {
 public:
-  bst_node_t(int value, node_t *parent = 0) {
+  bst_node_t(int value, node_t *parent = nullptr) {
     this->value = value;
     this->parent = parent;
-    this->left = this->right = 0;
+    this->left = this->right = nullptr;
   }
 
   ~bst_node_t() {
-    if(this->left != 0) delete this->left;
-    if(this->right != 0) delete this->right;
+    if(this->left != nullptr) delete this->left;
+    if(this->right != nullptr) delete this->right;
   }
 
   std::string label() {
@@ -32,7 +32,7 @@ public:
 
 class bst_node : public bst_node_t<bst_node> {
 public:
-  bst_node(int value, bst_node *parent = 0) : bst_node_t(value, parent) {}
+  bst_node(int value, bst_node *parent = nullptr) : bst_node_t(value, parent) {}
 };
 
 template<typename node_t = bst_node>
@@ -61,39 +61,39 @@ private:
 
 template<typename node_t>
 bst<node_t>::bst() {
-  this->root = 0;
+  this->root = nullptr;
 }
 
 template<typename node_t>
 bst<node_t>::~bst() {
-  if(this->root != 0) delete this->root;
+  if(this->root != nullptr) delete this->root;
 }
 
 template<typename node_t>
 node_t* bst<node_t>::find(int value) {
   node_t *current = root;
-  while(current != 0) {
+  while(current != nullptr) {
     if(current->value == value) return current;
     if(value < current->value) current = current->left;
     else current = current->right;
   }
-  return 0;
+  return nullptr;
 }
 
 template<typename node_t>
 node_t* bst<node_t>::insert(int value) {
-  if(root == 0) {
+  if(root == nullptr) {
     return root = new node_t(value);
   } else {
     node_t *parent = root;
     while(true) {
-      if(value == parent->value) return 0;
+      if(value == parent->value) return nullptr;
 
       node_t *next;
       if(value < parent->value) next = parent->left;
       else next = parent->right;
 
-      if(next == 0) break;
+      if(next == nullptr) break;
       parent = next;
     };
     if(value < parent->value) return parent->left = new node_t(value, parent);
@@ -104,15 +104,15 @@ node_t* bst<node_t>::insert(int value) {
 template<typename node_t>
 bool bst<node_t>::remove(int value) {
   node_t *node = find(value);
-  if(node == 0) return false;
+  if(node == nullptr) return false;
 
-  if(node->left == 0) {
+  if(node->left == nullptr) {
     transplant(node, node->right);
-  } else if(node->right == 0) {
+  } else if(node->right == nullptr) {
     transplant(node, node->left);
   } else {
     node_t *successor = node->right;
-    while(successor->left != 0) successor = successor->left;
+    while(successor->left != nullptr) successor = successor->left;
     if(successor->parent != node) {
       transplant(successor, successor->right);
       successor->right = node->right;
@@ -123,8 +123,8 @@ bool bst<node_t>::remove(int value) {
     successor->left->parent = successor;
   }
 
-  node->left = 0;
-  node->right = 0;
+  node->left = nullptr;
+  node->right = nullptr;
   delete node;
 
   return true;
@@ -133,14 +133,14 @@ bool bst<node_t>::remove(int value) {
 
 template<typename node_t>
 void bst<node_t>::transplant(node_t *n, node_t *m) {
-  if(n->parent == 0) {
+  if(n->parent == nullptr) {
     root = m;
   } else if(n->parent->left == n) {
     n->parent->left = m;
   } else {
     n->parent->right = m;
   }
-  if(m != 0) {
+  if(m != nullptr) {
     m->parent = n->parent;
   }
 }
@@ -152,11 +152,11 @@ bool bst<node_t>::is_bst() {
 
 template<typename node_t>
 bool bst<node_t>::is_bst_r(node_t *node) {
-  if(node == 0) return true;
-  bool left_ok = node->left == 0 ||
+  if(node == nullptr) return true;
+  bool left_ok = node->left == nullptr ||
                  (node->left->value < node->value && is_bst_r(node->left));
   if(!left_ok) return false;
-  bool right_ok = node->right == 0 ||
+  bool right_ok = node->right == nullptr ||
                   (node->right->value > node->value && is_bst_r(node->right));
   return right_ok;
 }
@@ -164,7 +164,7 @@ bool bst<node_t>::is_bst_r(node_t *node) {
 template<typename node_t>
 std::string bst<node_t>::print() {
   std::string output;
-  if(root == 0) {
+  if(root == nullptr) {
     output = "Empty tree.\n";
   } else {
     auto tuple = print_r(root);
@@ -177,7 +177,7 @@ std::string bst<node_t>::print() {
 
 template<typename node_t>
 std::tuple<std::vector<std::string>, int, int> bst<node_t>::print_r(node_t *node) {
-  if(node == 0) return make_tuple(std::vector<std::string>(), 0, 0);
+  if(node == nullptr) return make_tuple(std::vector<std::string>(), 0, 0);
 
   std::string label = node->label();
 
@@ -205,7 +205,7 @@ std::tuple<std::vector<std::string>, int, int> bst<node_t>::print_r(node_t *node
   }
 
   if((middle - label.length()) % 2 == 1 &&
-     node->parent != 0 &&
+     node->parent != nullptr &&
      node == node->parent->left &&
      label.length() < middle) {
     label += ".";
