@@ -5,7 +5,7 @@
 
 class avl_node : public bst_node_t<avl_node> {
 public:
-  avl_node(int value, avl_node *parent = 0);
+  avl_node(int value, avl_node *parent = nullptr);
   std::string label();
   void update_height();
 
@@ -14,9 +14,6 @@ public:
 
 class avl : public bst<avl_node> {
 public:
-  avl();
-  ~avl();
-
   avl_node* insert(int value);
   bool remove(int value);
 
