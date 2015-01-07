@@ -6789,3 +6789,14 @@ pre.code {
   padding: 9.5px !important;
   border: 1px solid #cccccc !important;
 }
+div.about p {
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.4;
+}
+@media (min-width: 768px) {
+  div.about p {
+    font-size: 21px;
+  }
+}
