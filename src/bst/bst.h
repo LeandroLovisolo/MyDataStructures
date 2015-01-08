@@ -1,77 +1,32 @@
 #ifndef __BST_H__
 #define __BST_H__
 
-#include <iostream>
-#include <tuple>
-#include <vector>
-#include <string>
+#include "bt.h"
 
-template<typename node_t>
-class bst_node_t {
+class bst_node : public bt_node_t<bst_node> {
 public:
-  bst_node_t(int value, node_t *parent = nullptr) {
-    this->value = value;
-    this->parent = parent;
-    this->left = this->right = nullptr;
-  }
-
-  ~bst_node_t() {
-    if(this->left != nullptr) delete this->left;
-    if(this->right != nullptr) delete this->right;
-  }
-
-  std::string label() {
-    return std::to_string(value);
-  }
-
-  int value;
-  node_t *parent;
-  node_t *left;
-  node_t *right;
-};
-
-class bst_node : public bst_node_t<bst_node> {
-public:
-  bst_node(int value, bst_node *parent = nullptr) : bst_node_t(value, parent) {}
+  bst_node(int value, bst_node *parent = nullptr) : bt_node_t(value, parent) {}
 };
 
 template<typename node_t = bst_node>
-class bst {
+class bst : public bt<node_t> {
 public:
-  bst();
-  ~bst();
-
   node_t* find(int value);
   node_t* insert(int value);
   bool remove(int value);
 
   bool is_bst();
-  std::string print();
 
 protected:
   void transplant(node_t *n, node_t *m);
-  node_t *root;
 
 private:
   bool is_bst_r(node_t *node);
-  std::tuple<std::vector<std::string>, int, int> print_r(node_t *node);
-  std::string center(const std::string &s, int w);
-
 };
 
 template<typename node_t>
-bst<node_t>::bst() {
-  this->root = nullptr;
-}
-
-template<typename node_t>
-bst<node_t>::~bst() {
-  if(this->root != nullptr) delete this->root;
-}
-
-template<typename node_t>
 node_t* bst<node_t>::find(int value) {
-  node_t *current = root;
+  node_t *current = this->root;
   while(current != nullptr) {
     if(current->value == value) return current;
     if(value < current->value) current = current->left;
@@ -82,10 +37,10 @@ node_t* bst<node_t>::find(int value) {
 
 template<typename node_t>
 node_t* bst<node_t>::insert(int value) {
-  if(root == nullptr) {
-    return root = new node_t(value);
+  if(this->root == nullptr) {
+    return this->root = new node_t(value);
   } else {
-    node_t *parent = root;
+    node_t *parent = this->root;
     while(true) {
       if(value == parent->value) return nullptr;
 
@@ -130,11 +85,10 @@ bool bst<node_t>::remove(int value) {
   return true;
 }
 
-
 template<typename node_t>
 void bst<node_t>::transplant(node_t *n, node_t *m) {
   if(n->parent == nullptr) {
-    root = m;
+    this->root = m;
   } else if(n->parent->left == n) {
     n->parent->left = m;
   } else {
@@ -147,7 +101,7 @@ void bst<node_t>::transplant(node_t *n, node_t *m) {
 
 template<typename node_t>
 bool bst<node_t>::is_bst() {
-  return is_bst_r(root);
+  return is_bst_r(this->root);
 }
 
 template<typename node_t>
@@ -159,91 +113,6 @@ bool bst<node_t>::is_bst_r(node_t *node) {
   bool right_ok = node->right == nullptr ||
                   (node->right->value > node->value && is_bst_r(node->right));
   return right_ok;
-}
-
-template<typename node_t>
-std::string bst<node_t>::print() {
-  std::string output;
-  if(root == nullptr) {
-    output = "Empty tree.\n";
-  } else {
-    auto tuple = print_r(root);
-    for(auto line : std::get<0>(tuple)) {
-      output += line + "\n";
-    }
-  }
-  return output;
-}
-
-template<typename node_t>
-std::tuple<std::vector<std::string>, int, int> bst<node_t>::print_r(node_t *node) {
-  if(node == nullptr) return make_tuple(std::vector<std::string>(), 0, 0);
-
-  std::string label = node->label();
-
-  auto left_tuple = print_r(node->left);
-  std::vector<std::string> left_lines = std::get<0>(left_tuple);
-  int left_pos = std::get<1>(left_tuple);
-  int left_width = std::get<2>(left_tuple);
-
-  auto right_tuple = print_r(node->right);
-  std::vector<std::string> right_lines = std::get<0>(right_tuple);
-  int right_pos = std::get<1>(right_tuple);
-  int right_width = std::get<2>(right_tuple);
-
-  int middle = std::max(right_pos + left_width - left_pos + 1, (int) label.length());
-  middle = std::max(middle, 2);
-  int pos = left_pos + middle / 2;
-  int width = left_pos + middle + right_width - right_pos;
-
-  while(left_lines.size() < right_lines.size()) {
-    left_lines.push_back(std::string(left_width, ' '));
-  }
-
-  while(right_lines.size() < left_lines.size()) {
-    right_lines.push_back(std::string(right_width, ' '));
-  }
-
-  if((middle - label.length()) % 2 == 1 &&
-     node->parent != nullptr &&
-     node == node->parent->left &&
-     label.length() < middle) {
-    label += ".";
-  }
-
-  label = center(label, middle);
-  if(label[0] == '.') {
-    label = " " + label.substr(1);
-  }
-  if(label[label.length() - 1] == '.') {
-    label = label.substr(0, label.length() - 1) + " ";
-  }
-
-  std::vector<std::string> lines;
-  lines.push_back(std::string(left_pos, ' ') +
-                  label +
-                  std::string(right_width - right_pos, ' '));
-  lines.push_back(std::string(left_pos, ' ') + "/" +
-                  std::string(middle - 2, ' ') + "\\" +
-                  std::string(right_width - right_pos, ' '));
-  for(int i = 0; i < std::min(left_lines.size(), right_lines.size()); i++) {
-    lines.push_back(left_lines[i] +
-                    std::string(width - left_width - right_width, ' ') +
-                    right_lines[i]);
-  }
-
-  return std::make_tuple(lines, pos, width);
-}
-
-template<typename node_t>
-std::string bst<node_t>::center(const std::string &s, int w) {
-  int padding = w - s.length();
-  std::string spaces(padding / 2, '.');
-  std::string padded = spaces + s + spaces;
-  if(padding > 0 && padding % 2 == 1) {
-    padded += ".";
-  }
-  return padded;
 }
 
 #endif
