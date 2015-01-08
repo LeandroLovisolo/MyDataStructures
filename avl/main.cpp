@@ -30,7 +30,7 @@ extern "C" {
   }
 
   const char * EMSCRIPTEN_KEEPALIVE avl_print() {
-    a_output = a.print_new();
+    a_output = a.print();
     return a_output.c_str();
   }
 }
