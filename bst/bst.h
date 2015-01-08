@@ -59,7 +59,6 @@ private:
   std::tuple<std::string, int> center_between(
       const std::string &s, int width, int left, int right,
       char left_internal_padding, char right_internal_padding);
-  std::string padding_left(const std::string &s, int w);
   std::string padding_right(const std::string &s, int w);
   std::string padder(int w);
 };
@@ -203,13 +202,6 @@ bst<node_t>::center_between(
   }
 
   return make_tuple(output, start_pos);
-}
-
-template<typename node_t>
-std::string bst<node_t>::padding_left(const std::string &s, int w) {
-  int padding = w - s.length();
-  std::string spaces(padding, ' ');
-  return spaces + s;
 }
 
 template<typename node_t>
