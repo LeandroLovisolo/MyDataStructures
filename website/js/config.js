@@ -26,6 +26,7 @@ window.DataStructures =
       }
     ],
     files: [
+      '/bst/bt.h',
       '/bst/bst.h',
     ],
     helpText:
@@ -68,6 +69,7 @@ window.DataStructures =
       }
     ],
     files: [
+      '/bst/bt.h',
       '/bst/bst.h',
       '/avl/avl.h',
       '/avl/avl.cpp'
@@ -129,6 +131,7 @@ window.DataStructures =
       }
     ],
     files: [
+      '/bst/bt.h',
       '/heap/heap.h',
       '/heap/heap.cpp'
     ],
@@ -157,21 +160,7 @@ window.DataStructures =
       '</p>' +
       '<p>' +
       '  The heap implemented here happens to be a min heap.' +
-      '</p>' +
-      '<p>' +
-      '  An example min heap and its corresponding binary tree are pictured' +
-      '  below.' +
-      '<p>' +
-      '<pre>1 2 6 4 3 10 8 9 7 5</pre>' +
-      '<pre>\n' +
-      '      ..1..\n' +
-      '     /     \\\n' +
-      '   .2..     6\n' +
-      '  /    \\   / \\\n' +
-      '  4    3  10 8\n' +
-      ' / \\   /\n' +
-      '9  7  5\n' +
-      '</pre>'
+      '</p>'
   },
   {
     name: 'Skip list',

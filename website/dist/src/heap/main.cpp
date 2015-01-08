@@ -57,8 +57,11 @@ heap build_heap(const vector<int> &items) {
   heap h;
   for(int i : items) {
     h.push(i);
-    cout << "Inserting " << i << ":\t";
-    cout << h.print();
+    cout << endl
+         << "Inserting " << i << ":" << endl
+         << "----------" << endl
+         << h.print()
+         << "----------" << endl << endl;
     if(!h.is_heap()) {
       cout << "ERROR: heap property broken." << endl;;
     }
@@ -75,11 +78,8 @@ int main(int argc, char *argv[]) {
   for(int i : items) cout << i << " ";
   cout << endl;
 
-  cout << endl << "Building heap..." << endl;
+  cout << "Building heap..." << endl;
   heap h = build_heap(items);
-
-  cout << endl << "Heap:" << endl;
-  cout << h.print();
 
   cout << endl << "Popping elements: " << endl;
   while(!h.empty()) {

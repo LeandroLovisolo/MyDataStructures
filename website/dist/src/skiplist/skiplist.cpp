@@ -96,14 +96,17 @@ string skiplist::print() {
     for(int level = head.level(); level >= 0; level--) {
       node *current = &head, *current_0 = &head;
       while(current != &tail) {
-        output += (current == &head ? "#" : to_string(current->value));
+        output += current == &head ?
+            "# " : ("--> " + to_string(current->value) + " ");
         current = current->forward[level];
+        current_0 = current_0->forward[0];
         while(current_0 != current) {
-          output += "\t";
+          output += current_0 == &head ?
+            "-" : string(to_string(current_0->value).length() + 5, '-');
           current_0 = current_0->forward[0];
         }
       }
-      output += "#\n";
+      output += "--> #\n";
     }
   }
   return output;

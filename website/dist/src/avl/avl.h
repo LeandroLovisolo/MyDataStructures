@@ -3,7 +3,7 @@
 
 #include "../bst/bst.h"
 
-class avl_node : public bst_node_t<avl_node> {
+class avl_node : public bt_node_t<avl_node> {
 public:
   avl_node(int value, avl_node *parent = nullptr);
   std::string label();

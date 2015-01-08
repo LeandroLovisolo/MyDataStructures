@@ -52,12 +52,27 @@ string heap::print() {
   if(empty()) {
     output = "Empty heap.";
   } else {
+    output += "Underlying array:\n";
     for(int i : items) {
       output += to_string(i) + " ";
     }
-    output += "\n";
+    output += "\n\n";
+
+    bt<> t(build_node(0));
+    output += t.print();
   }
   return output;
+}
+
+bt_node* heap::build_node(int i) {
+  if(i >= size()) {
+    return nullptr;
+  } else {
+    bt_node *node = new bt_node(items[i]);
+    node->left = build_node(left(i));
+    node->right = build_node(right(i));
+    return node;
+  }
 }
 
 bool heap::is_heap() {

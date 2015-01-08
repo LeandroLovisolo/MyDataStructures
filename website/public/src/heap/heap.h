@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#include "../bst/bt.h"
+
 class heap {
 public:
   void push(int x);
@@ -26,6 +28,7 @@ private:
   int smallest(int i);
   void heapify(int i);
   bool is_heap_r(int i);
+  bt_node* build_node(int i);
 };
 
 #endif

@@ -2,7 +2,7 @@
 
 using namespace std;
 
-avl_node::avl_node(int value, avl_node *parent) : bst_node_t(value, parent) {
+avl_node::avl_node(int value, avl_node *parent) : bt_node_t(value, parent) {
   height = 0;
 }
 
