@@ -5,6 +5,8 @@
 #include <tuple>
 #include <vector>
 #include <string>
+#include <climits>
+#include <cassert>
 
 template<typename node_t>
 class bst_node_t {
@@ -47,7 +49,7 @@ public:
 
   bool is_bst();
   std::string print();
-
+  std::string print_new();
 protected:
   void transplant(node_t *n, node_t *m);
   node_t *root;
@@ -56,7 +58,13 @@ private:
   bool is_bst_r(node_t *node);
   std::tuple<std::vector<std::string>, int, int> print_r(node_t *node);
   std::string center(const std::string &s, int w);
-
+  std::string center_new(const std::string &s, int w);
+  std::pair<std::string, int> center_between(const std::string &s, int width,
+                                             int left, int right);
+  std::string padding_left(const std::string &s, int w);
+  std::string padding_right(const std::string &s, int w);
+  std::string padder(int w, char c = ' ');
+  std::tuple<std::vector<std::string>, int> print_node(node_t *node);
 };
 
 template<typename node_t>
@@ -244,6 +252,153 @@ std::string bst<node_t>::center(const std::string &s, int w) {
     padded += ".";
   }
   return padded;
+}
+
+template<typename node_t>
+std::string bst<node_t>::center_new(const std::string &s, int w) {
+  int padding = w - s.length();
+  std::string spaces(padding / 2, ' ');
+  std::string padded = spaces + s + spaces;
+  if(padding > 0 && padding % 2 == 1) {
+    padded += " ";
+  }
+  return padded;
+}
+
+
+template<typename node_t>
+std::pair<std::string, int>
+bst<node_t>::center_between(const std::string &s, int width, int left,
+                            int right) {
+  assert(s.length() <= width);
+  assert(0 <= left);
+  assert(left <= right);
+  assert(right <= width);
+
+  int start_pos = 0;
+  int best_val = INT_MAX;
+
+  for(int cur_start_pos = 0; cur_start_pos <= width - s.length(); cur_start_pos++) {
+    int left_chars = left - cur_start_pos;
+    int right_chars = cur_start_pos + s.length() - 1 - right;
+    int val = abs(right_chars - left_chars);
+    if(val < best_val) {
+      start_pos = cur_start_pos;
+      best_val = val;
+    }
+  }
+
+  std::string output(width, ' ');
+
+  for(int i = 0; i < width; i++) {
+    if(i < start_pos) {
+      output[i] = (i > left ? '.' : ' ');
+    } else if(start_pos <= i && i < start_pos + s.length()) {
+      output[i] = s[i - start_pos];
+    } else {
+      output[i] = (i < right ? '.' : ' ');
+    }
+  }
+
+  return make_pair(output, start_pos);
+}
+
+template<typename node_t>
+std::string bst<node_t>::padding_left(const std::string &s, int w) {
+  int padding = w - s.length();
+  std::string spaces(padding, ' ');
+  return spaces + s;
+}
+
+template<typename node_t>
+std::string bst<node_t>::padding_right(const std::string &s, int w) {
+  int padding = w - s.length();
+  std::string spaces(padding, ' ');
+  return s + spaces;
+}
+
+template<typename node_t>
+std::string bst<node_t>::padder(int w, char c) {
+  return std::string(std::max(0, w), c);
+}
+
+template<typename node_t>
+std::tuple<std::vector<std::string>, int>
+bst<node_t>::print_node(node_t *node) {
+  std::vector<std::string> output;
+  int root_middle_point = 0;
+
+  if(node == nullptr) {
+    // Do nothing
+  } else if(node->left == nullptr && node->right == nullptr) {
+    output = { node->label() };
+    root_middle_point = node->label().length() / 2;
+  } else {
+    std::string label = node->label();
+
+    // Print left node
+    auto left_node = print_node(node->left);
+    auto left_node_output = std::get<0>(left_node);
+    int left_node_middle_point = std::get<1>(left_node);
+    int left_node_width = left_node_output.empty() ?
+      0 : left_node_output[0].length();
+
+    // Print right node
+    auto right_node = print_node(node->right);
+    auto right_node_output = std::get<0>(right_node);
+    int right_node_middle_point = std::get<1>(right_node);
+    int right_node_width = right_node_output.empty() ?
+      0 : right_node_output[0].length();
+
+    int w = std::max((int) label.length(),
+                     left_node_width + right_node_width + 1);
+
+    auto label_line = center_between(label, w, left_node_middle_point,
+                                     left_node_width + 1 + right_node_middle_point);
+
+    root_middle_point = label_line.second + label.length() / 2;
+
+    output.push_back(label_line.first);
+
+    if(left_node_width == 0) {
+      output.push_back(padding_right(padder(right_node_middle_point + 1) + "\\", w));
+    } else if(right_node_width == 0) {
+      output.push_back(padding_right(padder(left_node_middle_point) + "/", w));
+    } else {
+      std::string left = padding_right(padder(left_node_middle_point) + "/", left_node_width);
+      std::string right = padder(right_node_middle_point) + "\\";
+      output.push_back(padding_right(left + " " + right, w));
+    }
+
+    for(int i = 0;
+        i < std::max(left_node_output.size(), right_node_output.size());
+        i++) {
+
+      std::string left = (i >= left_node_output.size() ?
+          padder(left_node_width) : left_node_output[i]);
+
+      std::string right = (i >= right_node_output.size() ?
+          padder(right_node_width) : right_node_output[i]);
+
+      output.push_back(left + " " + right);
+    }
+  }
+
+  return make_tuple(output, root_middle_point);
+}
+
+template<typename node_t>
+std::string bst<node_t>::print_new() {
+  std::string output;
+  if(root == nullptr) {
+    output = "Empty tree.";
+  } else {
+    auto lines = std::get<0>(print_node(root));
+    for(auto line : lines) {
+      output += line + "\n";
+    }
+  }
+  return output;
 }
 
 #endif
